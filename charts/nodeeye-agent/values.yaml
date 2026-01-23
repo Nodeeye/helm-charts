@@ -1,0 +1,119 @@
+# Nodeeye Agent Helm Chart Values
+# ================================
+# These values configure the Nodeeye agent deployment in your Kubernetes cluster.
+
+# REQUIRED: Your organization's agent token from the Nodeeye dashboard
+agentToken: ""
+
+# REQUIRED: The control plane WebSocket URL
+# For SaaS: wss://api.nodeeye.io/api/v1/agent/ws
+# For self-hosted: ws://<your-server>:8080/api/v1/agent/ws
+controlPlaneUrl: "wss://api.nodeeye.io/api/v1/agent/ws"
+
+# Optional: Cluster ID (auto-assigned if empty)
+clusterId: ""
+
+# Agent image configuration
+image:
+  repository: ghcr.io/nodeeye/nodeeye-agent
+  pullPolicy: IfNotPresent
+  # Overrides the image tag (defaults to Chart.appVersion)
+  tag: ""
+
+# Image pull secrets for private registries
+imagePullSecrets: []
+
+# Override the default name
+nameOverride: ""
+fullnameOverride: ""
+
+# Agent configuration
+agent:
+  # Heartbeat interval in seconds
+  heartbeatInterval: 30
+  # Snapshot interval in seconds  
+  snapshotInterval: 10
+  # Enable debug logging
+  debug: false
+
+# Service account configuration
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use
+  name: ""
+
+# Pod annotations
+podAnnotations: {}
+
+# Pod security context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+  runAsGroup: 65534
+  fsGroup: 65534
+
+# Container security context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+# Node selector for pod scheduling
+nodeSelector: {}
+
+# Tolerations for pod scheduling
+tolerations:
+  # Allow scheduling on control-plane nodes
+  - key: node-role.kubernetes.io/control-plane
+    operator: Exists
+    effect: NoSchedule
+  - key: node-role.kubernetes.io/master
+    operator: Exists
+    effect: NoSchedule
+
+# Affinity rules for pod scheduling
+affinity: {}
+
+# Priority class name
+priorityClassName: ""
+
+# Liveness probe configuration
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 30
+
+# Readiness probe configuration
+readinessProbe:
+  httpGet:
+    path: /readyz
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+# Extra environment variables
+extraEnv: []
+#  - name: MY_VAR
+#    value: "my-value"
+
+# Extra volume mounts
+extraVolumeMounts: []
+
+# Extra volumes
+extraVolumes: []

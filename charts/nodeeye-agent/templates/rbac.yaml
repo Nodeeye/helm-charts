@@ -1,0 +1,88 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "nodeeye-agent.fullname" . }}
+  labels:
+    {{- include "nodeeye-agent.labels" . | nindent 4 }}
+rules:
+  # Read-only access to pods, nodes, events
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - nodes
+      - events
+      - services
+      - endpoints
+      - namespaces
+      - configmaps
+      - secrets
+      - persistentvolumeclaims
+      - persistentvolumes
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to workloads
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to batch resources
+  - apiGroups: ["batch"]
+    resources:
+      - jobs
+      - cronjobs
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to networking
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - ingresses
+      - networkpolicies
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to autoscaling
+  - apiGroups: ["autoscaling"]
+    resources:
+      - horizontalpodautoscalers
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to storage classes
+  - apiGroups: ["storage.k8s.io"]
+    resources:
+      - storageclasses
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to RBAC (for graph visualization)
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources:
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+    verbs: ["get", "list", "watch"]
+  
+  # Read-only access to policy
+  - apiGroups: ["policy"]
+    resources:
+      - poddisruptionbudgets
+    verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "nodeeye-agent.fullname" . }}
+  labels:
+    {{- include "nodeeye-agent.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "nodeeye-agent.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "nodeeye-agent.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
