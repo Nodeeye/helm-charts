@@ -5,7 +5,7 @@ Official Helm charts for [Nodeeye](https://nodeeye.io) - AI-powered Kubernetes o
 ## Usage
 
 ```bash
-helm repo add nodeeye https://nodeeye.github.io/helm-charts
+helm repo add nodeeye https://charts.nodeeye.io
 helm repo update
 ```
 
@@ -27,7 +27,7 @@ helm repo update
 
 ```bash
 # Add the Nodeeye helm repository
-helm repo add nodeeye https://nodeeye.github.io/helm-charts
+helm repo add nodeeye https://charts.nodeeye.io
 helm repo update
 
 # Install the agent
