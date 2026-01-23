@@ -9,7 +9,7 @@ sources:
   - https://github.com/nodeeye/nodeeye
 maintainers:
   - name: Nodeeye Team
-    email: team@nodeeye.io
+    email: team@nodeeye.ews.ng
 keywords:
   - kubernetes
   - observability
