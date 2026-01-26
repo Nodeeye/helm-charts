@@ -14,7 +14,7 @@ This Helm chart deploys the Nodeeye agent into your Kubernetes cluster to collec
 
 ```bash
 # Add the Nodeeye Helm repository (if using a Helm repo)
-helm repo add nodeeye https://charts.nodeeye.ews.ng
+helm repo add nodeeye https://charts.nodeeye.io
 helm repo update
 
 # Install the agent
@@ -38,7 +38,7 @@ helm install nodeeye-agent ./helm/nodeeye-agent \
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `agentToken` | **Required.** Agent authentication token | `""` |
-| `controlPlaneUrl` | Control plane WebSocket URL | `wss://api.nodeeye.ews.ng/agent` |
+| `controlPlaneUrl` | Control plane WebSocket URL | `wss://api.nodeeye.io/agent` |
 | `clusterId` | Cluster identifier (auto-assigned if empty) | `""` |
 | `image.repository` | Agent image repository | `ghcr.io/nodeeye/nodeeye-agent` |
 | `image.tag` | Agent image tag | Chart appVersion |
@@ -56,7 +56,7 @@ Create a `my-values.yaml`:
 
 ```yaml
 agentToken: "ne_agent_xxxxxxxxxxxxx"
-controlPlaneUrl: "wss://api.nodeeye.ews.ng/agent"
+controlPlaneUrl: "wss://api.nodeeye.io/agent"
 
 agent:
   heartbeatInterval: 15

@@ -1,11 +1,11 @@
 # Nodeeye Helm Charts
 
-Official Helm charts for [Nodeeye](https://nodeeye.ews.ng) - AI-powered Kubernetes observability.
+Official Helm charts for [Nodeeye](https://nodeeye.io) - AI-powered Kubernetes observability.
 
 ## Usage
 
 ```bash
-helm repo add nodeeye https://charts.nodeeye.ews.ng
+helm repo add nodeeye https://charts.nodeeye.io
 helm repo update
 ```
 
@@ -21,13 +21,13 @@ helm repo update
 
 1. A Kubernetes cluster (1.19+)
 2. Helm 3.0+
-3. An agent token from your [Nodeeye dashboard](https://app.nodeeye.ews.ng)
+3. An agent token from your [Nodeeye dashboard](https://app.nodeeye.io)
 
 ### Quick Start
 
 ```bash
 # Add the Nodeeye helm repository
-helm repo add nodeeye https://charts.nodeeye.ews.ng
+helm repo add nodeeye https://charts.nodeeye.io
 helm repo update
 
 # Install the agent
@@ -44,7 +44,7 @@ See [values.yaml](./charts/nodeeye-agent/values.yaml) for all configurable optio
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `agentToken` | **Required.** Agent token from Nodeeye dashboard | `""` |
-| `controlPlaneUrl` | WebSocket URL for control plane | `wss://api.nodeeye.ews.ng/api/v1/agent/ws` |
+| `controlPlaneUrl` | WebSocket URL for control plane | `wss://api.nodeeye.io/api/v1/agent/ws` |
 | `image.repository` | Agent image repository | `ghcr.io/nodeeye/nodeeye-agent` |
 | `image.tag` | Agent image tag | Chart appVersion |
 | `resources.requests.cpu` | CPU request | `50m` |
