@@ -17,6 +17,7 @@ rules:
       - namespaces
       - configmaps
       - secrets
+      - serviceaccounts
       - persistentvolumeclaims
       - persistentvolumes
     verbs: ["get", "list", "watch"]
@@ -69,6 +70,7 @@ rules:
   - apiGroups: ["policy"]
     resources:
       - poddisruptionbudgets
+      - podsecuritypolicies
     verbs: ["get", "list", "watch"]
 
 ---

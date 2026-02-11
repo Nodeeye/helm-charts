@@ -16,7 +16,7 @@ clusterId: ""
 # Agent image configuration
 image:
   repository: ghcr.io/splax-s/nodeeye-agent
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag (defaults to Chart.appVersion)
   tag: ""
 

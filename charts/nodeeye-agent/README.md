@@ -40,7 +40,7 @@ helm install nodeeye-agent ./helm/nodeeye-agent \
 | `agentToken` | **Required.** Agent authentication token | `""` |
 | `controlPlaneUrl` | Control plane WebSocket URL | `wss://api.nodeeye.io/api/v1/agent/ws` |
 | `clusterId` | Cluster identifier (auto-assigned if empty) | `""` |
-| `image.repository` | Agent image repository | `ghcr.io/nodeeye/nodeeye-agent` |
+| `image.repository` | Agent image repository | `ghcr.io/splax-s/nodeeye-agent` |
 | `image.tag` | Agent image tag | Chart appVersion |
 | `agent.heartbeatInterval` | Heartbeat interval in seconds | `15` |
 | `agent.snapshotInterval` | Snapshot interval in seconds | `10` |
