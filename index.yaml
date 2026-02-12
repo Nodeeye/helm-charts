@@ -3,6 +3,30 @@ entries:
   nodeeye-agent:
   - apiVersion: v2
     appVersion: latest
+    created: "2026-02-12T10:53:00.678806795Z"
+    description: Nodeeye agent for Kubernetes observability, causal graph collection,
+      runtime security monitoring, and security posture management
+    digest: e6390ae16aa3f5ae21feb24acb195e7286a0f6e186c66ef238509fd05c668563
+    home: https://github.com/nodeeye/nodeeye
+    keywords:
+    - kubernetes
+    - observability
+    - causal-graph
+    - runtime-security
+    - debugging
+    - incident-response
+    maintainers:
+    - email: team@nodeeye.io
+      name: Nodeeye Team
+    name: nodeeye-agent
+    sources:
+    - https://github.com/nodeeye/nodeeye
+    type: application
+    urls:
+    - https://github.com/Nodeeye/helm-charts/releases/download/nodeeye-agent-0.4.0/nodeeye-agent-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2026-02-11T22:38:09.495199+01:00"
     description: Nodeeye agent for Kubernetes observability, causal graph collection,
       and security posture management
@@ -24,4 +48,4 @@ entries:
     urls:
     - https://nodeeye.github.io/helm-charts/nodeeye-agent-0.3.0.tgz
     version: 0.3.0
-generated: "2026-02-11T22:38:09.494077+01:00"
+generated: "2026-02-12T10:53:00.678814539Z"
