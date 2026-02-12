@@ -28,12 +28,31 @@ spec:
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}
+      {{- if .Values.runtimeSecurity.enabled }}
+      hostPID: true
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+      {{- else }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
+          {{- if .Values.runtimeSecurity.enabled }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - SYS_PTRACE
+          {{- else }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
@@ -64,6 +83,12 @@ spec:
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+            {{- if .Values.runtimeSecurity.enabled }}
+            - name: NODEEYE_RUNTIME_SECURITY
+              value: "true"
+            - name: NODEEYE_RUNTIME_SCAN_INTERVAL
+              value: {{ .Values.runtimeSecurity.scanInterval | default 5 | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -78,13 +103,27 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- with .Values.extraVolumeMounts }}
+          {{- if or .Values.extraVolumeMounts .Values.runtimeSecurity.enabled }}
           volumeMounts:
+            {{- if .Values.runtimeSecurity.enabled }}
+            - name: proc
+              mountPath: /proc
+              readOnly: true
+            {{- end }}
+            {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
-      {{- with .Values.extraVolumes }}
+      {{- if or .Values.extraVolumes .Values.runtimeSecurity.enabled }}
       volumes:
+        {{- if .Values.runtimeSecurity.enabled }}
+        - name: proc
+          hostPath:
+            path: /proc
+        {{- end }}
+        {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

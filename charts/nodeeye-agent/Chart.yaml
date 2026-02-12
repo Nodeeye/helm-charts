@@ -1,8 +1,8 @@
 apiVersion: v2
 name: nodeeye-agent
-description: Nodeeye agent for Kubernetes observability, causal graph collection, and security posture management
+description: Nodeeye agent for Kubernetes observability, causal graph collection, runtime security monitoring, and security posture management
 type: application
-version: 0.3.0
+version: 0.4.0
 appVersion: "latest"
 home: https://github.com/nodeeye/nodeeye
 sources:
@@ -14,5 +14,6 @@ keywords:
   - kubernetes
   - observability
   - causal-graph
+  - runtime-security
   - debugging
   - incident-response

@@ -36,6 +36,15 @@ agent:
   # Enable debug logging
   debug: false
 
+# Runtime Security Monitoring
+# When enabled, the agent monitors container processes, file access, and
+# network connections via /proc scanning to detect anomalous runtime behaviour.
+runtimeSecurity:
+  # Enable runtime security monitoring (requires hostPID access)
+  enabled: false
+  # Scan interval in seconds (how often /proc is scanned)
+  scanInterval: 5
+
 # Service account configuration
 serviceAccount:
   # Specifies whether a service account should be created
@@ -71,6 +80,15 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
+
+# Override resources when runtimeSecurity is enabled (needs more memory for /proc scanning)
+# runtimeSecurityResources:
+#   limits:
+#     cpu: 500m
+#     memory: 512Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
 
 # Node selector for pod scheduling
 nodeSelector: {}

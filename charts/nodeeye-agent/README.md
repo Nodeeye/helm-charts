@@ -49,6 +49,29 @@ helm install nodeeye-agent ./helm/nodeeye-agent \
 | `resources.limits.memory` | Memory limit | `256Mi` |
 | `resources.requests.cpu` | CPU request | `50m` |
 | `resources.requests.memory` | Memory request | `64Mi` |
+| `runtimeSecurity.enabled` | Enable runtime security monitoring | `false` |
+| `runtimeSecurity.scanInterval` | Process/network scan interval (seconds) | `5` |
+
+### Runtime Security Monitoring
+
+Nodeeye can monitor container runtime behaviour to detect suspicious process executions, sensitive file access, and anomalous network connections. This feature scans the host `/proc` filesystem to collect events and feeds them to the server-side detection engine.
+
+**Enable runtime security:**
+
+```bash
+helm install nodeeye-agent nodeeye/nodeeye-agent \
+  --namespace nodeeye \
+  --create-namespace \
+  --set agentToken="your-agent-token-here" \
+  --set runtimeSecurity.enabled=true
+```
+
+> **Note:** Enabling runtime security grants the agent `hostPID` access and runs the container as root so it can read `/proc` entries for all processes on the node. The container still uses a read-only root filesystem with all capabilities dropped except `SYS_PTRACE`.
+
+**What runtime security detects:**
+- Suspicious binary execution (reverse shells, crypto miners, recon tools)
+- Sensitive file access (`/etc/shadow`, `docker.sock`, `/proc/kcore`)
+- Unexpected outbound network connections (C2 ports, DNS exfiltration)
 
 ### Using a values file
 
@@ -92,10 +115,16 @@ The Nodeeye agent collects **read-only** information about your cluster:
 - **Events**: Kubernetes events for correlation
 - **ConfigMaps/Secrets**: Names only (no values)
 
+When runtime security is enabled (`runtimeSecurity.enabled=true`):
+- **Process executions**: Binary name, arguments, container context
+- **Network connections**: Established TCP connections with remote addresses
+- **File access**: Open file descriptors pointing to sensitive paths
+
 The agent does **not**:
 - Read secret values
 - Modify any resources
 - Send any PII or sensitive data
+- Install kernel modules or eBPF programs
 
 ## Security
 
